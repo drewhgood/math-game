@@ -34,6 +34,7 @@ Read the pseudocode below and:
  * Note it's properties (indentation, style)
  * Understand completely what it does
 
+
     initialize passes to zero
     initialize failures to zero
     initialize student counter to zero

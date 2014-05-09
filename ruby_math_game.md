@@ -29,6 +29,10 @@ Pseudocode is still written like code, but is not language specific:
 
 ### Example
 
+Read the pseudocode below and:
+ * Note it's properties (indentation, style)
+ * Understand completely what it does
+
     initialize passes to zero
     initialize failures to zero
     initialize student counter to zero
@@ -46,7 +50,7 @@ Pseudocode is still written like code, but is not language specific:
     print the number of failures
 
     if eight or more students passed
-      print "raise tuition"
+      print "party time!"
 
 ## TIP: Iterate, Iterate, Iterate
 

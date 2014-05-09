@@ -50,6 +50,12 @@ Pseudocode is still written like code, but is not language specific:
     if eight or more students passed
       print "party time!"
 
+
+Read the pseudocode above and:
+
+ * Note it's properties (indentation, style)
+ * Understand completely what it does
+
 ## TIP: Iterate, Iterate, Iterate
 
 Build your code incrementally.

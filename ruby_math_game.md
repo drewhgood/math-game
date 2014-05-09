@@ -38,7 +38,7 @@ Read the pseudocode below and:
     initialize failures to zero
     initialize student counter to zero
     initialize input
-
+    
     loop until input equals "done"
       get input about next exam result
       if the student passed
@@ -46,10 +46,10 @@ Read the pseudocode below and:
       else
         add one to failures
       add one to student counter
-
+    
     print the number of passes
     print the number of failures
-
+    
     if eight or more students passed
       print "party time!"
 

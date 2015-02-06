@@ -44,11 +44,27 @@ def update_state(correct)
   #update turn
   @whos_turn == 1 ? @whos_turn = 2 : @whos_turn = 1
 
+  #check if game over
+  if @player1_score == 0 || @player2_score == 0
+    end_game
+  else
+    scoreboard
+  end
 
-  p "player 1 #{@player1_score}"
-  p "player 2 #{@player2_score}"
+end
 
- generate_question
+
+def scoreboard
+
+  p "Player 1: (#{@player1_score})pts | Player 2: (#{@player2_score})pts"
+
+  generate_question
+
+end
+
+def end_game
+
+  p @player1_score == 0 ? "Player 2 wins!" : "Player 1 wins!"
 
 end
 

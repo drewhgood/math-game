@@ -1,6 +1,8 @@
 @whos_turn = 1
 @player1_score = 3
 @player2_score = 3
+@p1_name = ''
+@p2_name = '' 
 
 
 
@@ -8,9 +10,12 @@
 def generate_question
   n1 = rand(20)
   n2 = rand(20)
-  @answer = n1 + n2
+  # # options = [+ , - , * ]
+  # # mathtype = options[rand(2)]
+
+  # @answer = n1 mathtype n2
   
-  question= "Player #{@whos_turn}, what is #{n1} + #{n2} ?"
+  question= "Player #{@whos_turn == 1 ? @p1_name : @p2_name}, what is #{n1} + #{n2} ?"
   
   ask_question(question)
 end
@@ -55,32 +60,51 @@ end
 
 
 def scoreboard
-  p "Player 1: (#{@player1_score})pts | Player 2: (#{@player2_score})pts"
+  p "Player #{@p1_name}: (#{@player1_score})pts | Player #{@p2_name}: (#{@player2_score})pts"
   generate_question
 end
 
 
 #output
 def end_game
- p @player1_score == 0 ? "Player 2 wins!" : "Player 1 wins!"
+ p @player1_score == 0 ? "Player #{@p2_name} wins!" : "Player @{p2_name} wins!"
  p 'Would you like to play again (Y/N)?'
  response = gets.chomp.downcase
  
  if response == 'y'
-  initialize_game 
-  generate_question
+  initialize_game(@p1_name, @p2_name)
+  
  else
   p 'Thanks for playing!'
  end
 
 end
 
-def initialize_game
+#IO
+def pre_initialize_game
 
+  p'Before we get stated, I need your names.'
+
+  puts 'What is your name, player 1?'
+  player1 = gets.chomp 
+  puts 'What is your name, player 2?'
+  player2 = gets.chomp
+
+  initialize_game(player1, player2)
+
+end
+
+
+
+#logic
+def initialize_game(player1, player2)
   @whos_turn = 1
   @player1_score = 3
   @player2_score = 3
+  @p1_name = player1
+  @p2_name = player2
 
+  generate_question
 end
 
 
@@ -88,4 +112,4 @@ end
 
 
 
-generate_question
+pre_initialize_game

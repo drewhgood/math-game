@@ -1,8 +1,13 @@
+
+
 @whos_turn = 1
 @player1_score = 3
 @player2_score = 3
 @p1_name = ''
-@p2_name = '' 
+@p2_name = ''
+@p1_cumulative_score = 0
+@p2_cumulative_score = 0
+
 
 
 
@@ -10,10 +15,8 @@
 def generate_question
   n1 = rand(20)
   n2 = rand(20)
-  # # options = [+ , - , * ]
-  # # mathtype = options[rand(2)]
 
-  # @answer = n1 mathtype n2
+  @answer = n1 + n2
   
   question= "Player #{@whos_turn == 1 ? @p1_name : @p2_name}, what is #{n1} + #{n2} ?"
   
@@ -43,8 +46,9 @@ end
 #logic
 def update_state(correct)
   
-  unless correct 
-    @whos_turn == 1 ? @player1_score -= 1 : @player2_score -= 1 
+  if correct == false
+    @whos_turn == 1 ? @player1_score -= 1 : @player2_score -= 1
+
   end
   #update turn
   @whos_turn == 1 ? @whos_turn = 2 : @whos_turn = 1
@@ -64,19 +68,28 @@ def scoreboard
   generate_question
 end
 
+def cumulative_scoreboard
+  p "This sessions score: #{@p1_name} - #{@p1_cumulative_score}(wins)  |  #{@p2_name} - #{@p2_cumulative_score}(wins)"
+end
+
 
 #output
 def end_game
- p @player1_score == 0 ? "Player #{@p2_name} wins!" : "Player @{p2_name} wins!"
- p 'Would you like to play again (Y/N)?'
- response = gets.chomp.downcase
- 
- if response == 'y'
-  initialize_game(@p1_name, @p2_name)
-  
- else
-  p 'Thanks for playing!'
- end
+   p @player1_score == 0 ? "Player #{@p2_name} wins!"  : "Player #{@p1_name} wins!"
+   @player1_score == 0 ? @p2_cumulative_score += 1  : @p1_cumulative_score += 1
+
+
+   cumulative_scoreboard
+
+   p 'Would you like to play again (Y/N)?'
+   response = gets.chomp.downcase
+   
+   if response == 'y'
+    initialize_game(@p1_name, @p2_name)
+    
+   else
+    p 'Thanks for playing!'
+   end
 
 end
 

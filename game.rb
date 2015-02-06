@@ -1,58 +1,33 @@
-@num = rand(10)
-@num2 = rand(10)
-@whos_turn = 1
-@player1_score = 3
-@player2_score = 3
+def generate_question
+  n1 = rand(20)
+  n2 = rand(20)
+  p @answer = n1 + n2
+  
+  question= "What is #{n1} + #{n2} ?"
+  
+  ask_question(question)
+end
 
 
-def ask_question
-
-  puts "what is #{@num} + #{@num2} ?"
-
-  puts "Player #{@whos_turn}, please give your answer"
-  response = gets.chomp.to_i 
-
-  compare(response)
-
+def ask_question(question)
+  p question
+  collect_input
 end
 
 
 
-def compare(response) 
+def collect_input 
+  response = gets.chomp.to_i
+  evaluate_answer(response)
+end
 
-  if response == @num+@num2
-    p 'You are correct!'
 
-  else
-    p 'Sorry, that is wrong. You lost a point!'
-    point_loser = @whos_turn == 1 ? 1 : 2
-  end
+def evaluate_answer(response)
+ p response == @answer
 
-  update_state(point_loser)
-
+ generate_question
 end
 
 
 
-def update_state(point_loser)
-
-  point_loser == 1 ? @player1_score -= 1 : @player2_score -= 1 
-
-#toggle players turn after question
-  @whos_turn == 1 ? @whos_turn = 2 : @whos_turn = 1
-
-  announce_score
-
-end
-
-
-def announce_score
-
-  puts "Score | Player 1: #{@player1_score}  Player 2: #{@player2_score}"
-
-end
-
-
-
-
-ask_question
+generate_question

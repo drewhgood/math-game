@@ -8,7 +8,7 @@
 def generate_question
   n1 = rand(20)
   n2 = rand(20)
-  p @answer = n1 + n2
+  @answer = n1 + n2
   
   question= "Player #{@whos_turn}, what is #{n1} + #{n2} ?"
   
@@ -55,18 +55,35 @@ end
 
 
 def scoreboard
-
   p "Player 1: (#{@player1_score})pts | Player 2: (#{@player2_score})pts"
-
   generate_question
-
 end
 
+
+#output
 def end_game
-
-  p @player1_score == 0 ? "Player 2 wins!" : "Player 1 wins!"
+ p @player1_score == 0 ? "Player 2 wins!" : "Player 1 wins!"
+ p 'Would you like to play again (Y/N)?'
+ response = gets.chomp.downcase
+ 
+ if response == 'y'
+  initialize_game 
+  generate_question
+ else
+  p 'Thanks for playing!'
+ end
 
 end
+
+def initialize_game
+
+  @whos_turn = 1
+  @player1_score = 3
+  @player2_score = 3
+
+end
+
+
 
 
 

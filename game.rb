@@ -58,20 +58,23 @@ def update_state(correct)
     @whos_turn == @p1 ?  @p1.lives_remaining -= 1 : @p2.lives_remaining -= 1
 
   end
-  
+
   #update turn
   @whos_turn == @p1 ? @whos_turn = @p2 : @whos_turn = @p1
 
+  #check if game over
+  if @player1_score == 0 || @player2_score == 0
+    end_game
+  else
+    scoreboard
+  end
+
+end
 
 
-  # #check if game over
-  # if @player1_score == 0 || @player2_score == 0
-  #   end_game
-  # else
-  #   scoreboard
-  # end
-
-
+def scoreboard
+  p "#{@p1.name}: (#{@p1.lives_remaining})pts | Player #{@p2.name}: (#{@p2.lives_remaining})pts"
+  #generate_question
 end
 
 
@@ -96,11 +99,7 @@ end
 
 
 
-# #output
-# def scoreboard
-#   p "Player #{@p1_name}: (#{@player1_score})pts | Player #{@p2_name}: (#{@player2_score})pts"
-#   generate_question
-# end
+
 
 # #output
 # def cumulative_scoreboard

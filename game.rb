@@ -11,20 +11,54 @@ class Player
 
 
   def lose_life
-    @lives_remaining -=1
+    @lives_remaining -= 1
   end
 
   def add_win
     @cumulative_score += 1
   end
 
+  def reset_lives_remaining
+    @reset_lives_remaining = 3
+  end
+
 end
 
-@p1 = Player.new('Drew')
-@p2 = Player.new('Megan')
 
 
-@whos_turn = @p1
+
+
+
+def initialize_game(need_new_names)
+
+  if need_new_names
+
+    p'Before we get started, I need your names.'
+
+    puts 'What is your name, player 1?'
+    @name1 = gets.chomp 
+    puts 'What is your name, player 2?'
+    @name2 = gets.chomp
+
+    
+
+  end
+
+ @p1 = Player.new('Drew')
+ @p2 = Player.new('Megan')
+
+ @p1.reset_lives_remaining
+ @p2.reset_lives_remaining
+
+
+  generate_question
+  
+end
+
+
+
+ @whos_turn = @p1
+
 
 
 def generate_question
@@ -33,7 +67,7 @@ def generate_question
 
   @answer = n1 + n2
   
-  question= "#{@whos_turn.name}, what is #{n1} + #{n2} ?"
+  question= "#{@whos_turn}, what is #{n1} + #{n2} ?"
   
   ask_question(question)
 end
@@ -87,16 +121,16 @@ end
 
 def end_game
    p @p1.lives_remaining == 0 ? "#{@p2.name} wins!"  : "#{@p1.name} wins!"
-   @p1.lives_remaining == 0 ? @p2.cumulative_score += 1  : @p1.cumulative_score += 1
+   @p1.lives_remaining == 0 ? @p2.add_win  : @p1.add_win
 
 
-   #cumulative_scoreboard
+   cumulative_scoreboard
 
    p 'Would you like to play again (Y/N)?'
    response = gets.chomp.downcase
    
    if response == 'y'
-    #initialize_game
+    initialize_game('no')
     
    else
     p 'Thanks for playing!'
@@ -105,68 +139,14 @@ def end_game
 end
 
 
+def cumulative_scoreboard
+  # add point when player wins a game
+  p "This sessions score: #{@p1.name} - #{@p1.cumulative_score}(wins)  |  #{@p2.name} - #{@p2.cumulative_score}(wins)"
 
- generate_question
-
-
-
-
-# 
-# @p1_cumulative_score = 0
-# @p2_cumulative_score = 0
+end
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-# #output
-# def cumulative_scoreboard
-#   # add point when player wins a game
-#   p "This sessions score: #{@p1_name} - #{@p1_cumulative_score}(wins)  |  #{@p2_name} - #{@p2_cumulative_score}(wins)"
-# end
-
-
-# 
-# #IO
-# def pre_initialize_game
-
-#   p'Before we get stated, I need your names.'
-
-#   puts 'What is your name, player 1?'
-#   player1 = gets.chomp 
-#   puts 'What is your name, player 2?'
-#   player2 = gets.chomp
-
-#   initialize_game(player1, player2)
-
-# end
-
-
-
-# #logic
-# def initialize_game(player1, player2)
-#   @whos_turn = 1
-#   @p1.lives_remaining = 3
-#   @player2_score = 3
-#   @p1_name = player1
-#   @p2_name = player2
-
-#   generate_question
-# end
-
-
-
-
-
-
-# pre_initialize_game
+ initialize_game('yes')

@@ -1,16 +1,21 @@
 
 class Player
 
-  attr_accessor :name, :lives_remaining
+  attr_accessor :name, :lives_remaining, :cumulative_score
 
   def initialize (name)
     @name = name
     @lives_remaining = 3
+    @cumulative_score = 0
   end
 
 
   def lose_life
     @lives_remaining -=1
+  end
+
+  def add_win
+    @cumulative_score += 1
   end
 
 end
@@ -63,7 +68,7 @@ def update_state(correct)
   @whos_turn == @p1 ? @whos_turn = @p2 : @whos_turn = @p1
 
   #check if game over
-  if @player1_score == 0 || @player2_score == 0
+  if @p1.lives_remaining == 0 || @p2.lives_remaining == 0
     end_game
   else
     scoreboard
@@ -73,9 +78,32 @@ end
 
 
 def scoreboard
+
   p "#{@p1.name}: (#{@p1.lives_remaining})pts | Player #{@p2.name}: (#{@p2.lives_remaining})pts"
-  #generate_question
+  generate_question
+
 end
+
+
+def end_game
+   p @p1.lives_remaining == 0 ? "#{@p2.name} wins!"  : "#{@p1.name} wins!"
+   @p1.lives_remaining == 0 ? @p2.cumulative_score += 1  : @p1.cumulative_score += 1
+
+
+   #cumulative_scoreboard
+
+   p 'Would you like to play again (Y/N)?'
+   response = gets.chomp.downcase
+   
+   if response == 'y'
+    #initialize_game
+    
+   else
+    p 'Thanks for playing!'
+   end
+
+end
+
 
 
  generate_question
@@ -108,26 +136,7 @@ end
 # end
 
 
-# #output
-# def end_game
-#    p @player1_score == 0 ? "Player #{@p2_name} wins!"  : "Player #{@p1_name} wins!"
-#    @player1_score == 0 ? @p2_cumulative_score += 1  : @p1_cumulative_score += 1
-
-
-#    cumulative_scoreboard
-
-#    p 'Would you like to play again (Y/N)?'
-#    response = gets.chomp.downcase
-   
-#    if response == 'y'
-#     initialize_game(@p1_name, @p2_name)
-    
-#    else
-#     p 'Thanks for playing!'
-#    end
-
-# end
-
+# 
 # #IO
 # def pre_initialize_game
 
@@ -147,7 +156,7 @@ end
 # #logic
 # def initialize_game(player1, player2)
 #   @whos_turn = 1
-#   @player1_score = 3
+#   @p1.lives_remaining = 3
 #   @player2_score = 3
 #   @p1_name = player1
 #   @p2_name = player2

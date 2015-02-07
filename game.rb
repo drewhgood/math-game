@@ -3,10 +3,10 @@ class Player
 
   attr_accessor :name, :lives_remaining, :cumulative_score
 
-  def initialize (name)
-    @name = name
+  def initialize
     @lives_remaining = 3
     @cumulative_score = 0
+    @name=''
   end
 
 
@@ -19,8 +19,13 @@ class Player
   end
 
   def reset_lives_remaining
-    @reset_lives_remaining = 3
+    @lives_remaining = 3
   end
+
+  def set_name (name)
+    @name = name 
+  end
+
 
 end
 
@@ -31,24 +36,32 @@ end
 
 def initialize_game(need_new_names)
 
+ 
+
   if need_new_names
+
+    @p1 = Player.new
+    @p2 = Player.new
 
     p'Before we get started, I need your names.'
 
     puts 'What is your name, player 1?'
-    @name1 = gets.chomp 
-    puts 'What is your name, player 2?'
-    @name2 = gets.chomp
-
     
+    n1 = gets.chomp
+    @p1.set_name(n1) 
+    puts 'What is your name, player 2?'
+    n2 = gets.chomp
+    @p2.set_name(n2) 
+
+
 
   end
 
- @p1 = Player.new('Drew')
- @p2 = Player.new('Megan')
 
- @p1.reset_lives_remaining
- @p2.reset_lives_remaining
+
+   @p1.reset_lives_remaining
+   @p2.reset_lives_remaining
+   @whos_turn = 1
 
 
   generate_question
@@ -57,7 +70,7 @@ end
 
 
 
- @whos_turn = @p1
+ @whos_turn = 1 #1 represents player 1
 
 
 
@@ -66,8 +79,9 @@ def generate_question
   n2 = rand(5)
 
   @answer = n1 + n2
+
   
-  question= "#{@whos_turn}, what is #{n1} + #{n2} ?"
+  question= "#{@whos_turn == 1 ? @p1.name : @p2.name}, what is #{n1} + #{n2} ?"
   
   ask_question(question)
 end
@@ -94,12 +108,12 @@ def update_state(correct)
   
   if correct == false
     
-    @whos_turn == @p1 ?  @p1.lives_remaining -= 1 : @p2.lives_remaining -= 1
+    @whos_turn == 1 ?  @p1.lives_remaining -= 1 : @p2.lives_remaining -= 1
 
   end
 
   #update turn
-  @whos_turn == @p1 ? @whos_turn = @p2 : @whos_turn = @p1
+  @whos_turn == 1 ? @whos_turn = 2 : @whos_turn = 1
 
   #check if game over
   if @p1.lives_remaining == 0 || @p2.lives_remaining == 0
@@ -130,7 +144,7 @@ def end_game
    response = gets.chomp.downcase
    
    if response == 'y'
-    initialize_game('no')
+    initialize_game(false)
     
    else
     p 'Thanks for playing!'
@@ -149,4 +163,4 @@ end
 
 
 
- initialize_game('yes')
+ initialize_game(true)

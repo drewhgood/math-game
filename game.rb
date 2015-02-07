@@ -8,18 +8,37 @@ class Player
     @lives_remaining = 3
   end
 
+
+  def lose_life
+    @lives_remaining -=1
+  end
+
 end
 
-p1 = Player.new('drew')
-p2 = Player.new('megan')
+p1 = Player.new('Drew')
+p2 = Player.new('Megan')
+
+
+@whos_turn = p1
+
+
+def generate_question
+  n1 = rand(20)
+  n2 = rand(20)
+
+  @answer = n1 + n2
+  
+  question= "#{@whos_turn.name}, what is #{n1} + #{n2} ?"
+  
+  #ask_question(question)
+end
+
+p generate_question
 
 
 
-# @whos_turn = 1
-# @player1_score = 3
-# @player2_score = 3
-# @p1_name = ''
-# @p2_name = ''
+
+# 
 # @p1_cumulative_score = 0
 # @p2_cumulative_score = 0
 

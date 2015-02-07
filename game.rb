@@ -15,25 +15,67 @@ class Player
 
 end
 
-p1 = Player.new('Drew')
-p2 = Player.new('Megan')
+@p1 = Player.new('Drew')
+@p2 = Player.new('Megan')
 
 
-@whos_turn = p1
+@whos_turn = @p1
 
 
 def generate_question
-  n1 = rand(20)
-  n2 = rand(20)
+  n1 = rand(5)
+  n2 = rand(5)
 
   @answer = n1 + n2
   
   question= "#{@whos_turn.name}, what is #{n1} + #{n2} ?"
   
-  #ask_question(question)
+  ask_question(question)
 end
 
-p generate_question
+
+def ask_question(question)
+  p question
+  collect_input
+end
+
+
+def collect_input 
+  response = gets.chomp.to_i
+  evaluate_response(response)
+end
+
+
+def evaluate_response(response)
+ correct = (response == @answer)
+ update_state(correct)
+end
+
+def update_state(correct)
+  
+  if correct == false
+    
+    @whos_turn == @p1 ?  @p1.lives_remaining -= 1 : @p2.lives_remaining -= 1
+
+  end
+  
+  #update turn
+  @whos_turn == @p1 ? @whos_turn = @p2 : @whos_turn = @p1
+
+
+
+  # #check if game over
+  # if @player1_score == 0 || @player2_score == 0
+  #   end_game
+  # else
+  #   scoreboard
+  # end
+
+
+end
+
+
+ generate_question
 
 
 
@@ -45,56 +87,14 @@ p generate_question
 
 
 
-# #logic
-# def generate_question
-#   n1 = rand(20)
-#   n2 = rand(20)
-
-#   @answer = n1 + n2
-  
-#   question= "Player #{@whos_turn == 1 ? @p1_name : @p2_name}, what is #{n1} + #{n2} ?"
-  
-#   ask_question(question)
-# end
-
-# #output
-# def ask_question(question)
-#   p question
-#   collect_input
-# end
 
 
-# #input
-# def collect_input 
-#   response = gets.chomp.to_i
-#   evaluate_answer(response)
-# end
 
 
-# #logic
-# def evaluate_answer(response)
-#  correct = (response == @answer)
-#  update_state(correct)
-# end
 
-# #logic
-# def update_state(correct)
-  
-#   if correct == false
-#     @whos_turn == 1 ? @player1_score -= 1 : @player2_score -= 1
 
-#   end
-#   #update turn
-#   @whos_turn == 1 ? @whos_turn = 2 : @whos_turn = 1
 
-#   #check if game over
-#   if @player1_score == 0 || @player2_score == 0
-#     end_game
-#   else
-#     scoreboard
-#   end
 
-# end
 
 # #output
 # def scoreboard

@@ -21,7 +21,15 @@ end
 
 
 def evalutate_response(response)
-  p response == @answer
+  response == @answer
+end
+
+def notify_right_or_wrong(correct_response)
+  if correct_response
+    p 'Correct Response!'
+  else
+    p 'Sorry, that is wrong.'
+  end
 end
 
 
@@ -29,9 +37,14 @@ end
 
 while x > 0
   generate_question
+
   ask_question 
-  evalutate_response(gather_response) 
-  
+
+  correct_response = evalutate_response(gather_response)
+
+  notify_right_or_wrong(correct_response)
+
+
 
   x = 0
 end

@@ -1,3 +1,4 @@
+require 'colorize'
 #game state values
 @whos_turn = 1
 @playing = true
@@ -63,9 +64,9 @@ end
 
 def notify_right_or_wrong(correct_response)
   if correct_response
-    p "#{turn_name}, that is a correct response!"
+    puts "#{turn_name}, that is a correct response!".colorize(:green)
   else
-    p "#{turn_name}, that's wrong! Better luck next time."
+    puts "#{turn_name}, that's wrong! Better luck next time.".colorize(:red)
   end
 end
 
@@ -86,11 +87,11 @@ end
 
 def check_for_winner
   if @p1_lives == 0 
-    p"#{@p2_name} wins!"
+    puts "#{@p2_name} wins!".blue.on_red.blink
     @playing = false
 
   elsif @p2_lives == 0
-    p "#{@p1_name} wins!"
+    puts "#{@p1_name} wins!".blue.on_red.blink
     @playing = false
   end  
 end

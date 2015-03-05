@@ -8,6 +8,8 @@ require 'colorize'
 @p2_lives = 3
 @p1_name ='' 
 @p2_name =''
+@p1_lifetime_score = 0
+@p2_lifetime_score = 0
 
 
 def set_player_names
@@ -27,6 +29,7 @@ end
 def ask_for_name
   p "Please enter your name, player #{@whos_turn}?"
 end
+
 
 
 def collect_name
@@ -85,15 +88,55 @@ def update_lives
 end
 
 
+def update_lifetime_score(player)
+  if player == 1
+    @p1_lifetime_score += 1
+  elsif player == 2
+    @p2_lifetime_score += 1
+  end
+end
+
+
 def check_for_winner
   if @p1_lives == 0 
+    update_lifetime_score(2)
     puts "#{@p2_name} wins!".blue.on_red.blink
-    @playing = false
-
+    quit_or_restart
   elsif @p2_lives == 0
+    update_lifetime_score(1)
     puts "#{@p1_name} wins!".blue.on_red.blink
-    @playing = false
+    quit_or_restart
   end  
+end
+
+
+def quit_or_restart
+  cumulative_scoreboard
+  puts "Play again? (Y/N)"
+  response = gets.chomp.downcase
+  if response == 'y'
+    reset_game_state
+    @playing = true
+  else
+    @playing = false
+  end
+end
+
+def cumulative_scoreboard
+  puts "#{@p1_name} : #{@p1_lifetime_score} total wins."
+  puts "#{@p2_name} : #{@p2_lifetime_score} total wins"
+end
+
+def scoreboard
+  puts "#{@p1_name} : #{@p1_lives}pts."
+  puts "#{@p2_name} : #{@p2_lives}pts"
+end
+
+
+def reset_game_state
+  @p1_lives = 3
+  @p2_lives = 3
+  @whos_turn = 1
 end
 
 
@@ -108,7 +151,7 @@ while @playing
     update_lives
   end
 
-  check_for_winner
   update_turn
-
+  scoreboard
+  check_for_winner
 end

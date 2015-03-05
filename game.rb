@@ -1,7 +1,37 @@
-x = 1
+#game state values
+@whos_turn = 1
+@playing = true
+
+#p1 refers to player 1, and p2 refers to player 2.
 @p1_lives = 3
 @p2_lives = 3
-@whos_turn = 1
+@p1_name ='' 
+@p2_name =''
+
+
+def set_player_names
+  ask_for_name
+  @p1_name = collect_name
+  
+  #update turn to ask the right player for their name
+  update_turn
+
+  ask_for_name
+  @p2_name = collect_name
+
+  update_turn
+end
+
+
+def ask_for_name
+  p "Please enter your name, player #{@whos_turn}?"
+end
+
+
+def collect_name
+  gets.chomp
+end
+
 
 
 def generate_question
@@ -11,8 +41,13 @@ def generate_question
 end
 
 
+def turn_name
+  @whos_turn == 1 ? @p1_name : @p2_name
+end
+
+
 def ask_question
-  print "What is  #{@number_1} + #{@number_2}?"
+  puts "#{turn_name}, what is  #{@number_1} + #{@number_2}?"
 end
 
 
@@ -28,9 +63,9 @@ end
 
 def notify_right_or_wrong(correct_response)
   if correct_response
-    p 'Correct Response!'
+    p "#{turn_name}, that is a correct response!"
   else
-    p 'Sorry, that is wrong.'
+    p "#{turn_name}, that's wrong! Better luck next time."
   end
 end
 
@@ -51,14 +86,18 @@ end
 
 def check_for_winner
   if @p1_lives == 0 
-    p'Player 2 Wins!'
+    p"#{@p2_name} wins!"
+    @playing = false
+
   elsif @p2_lives == 0
-    p'Player 1 Wins!'
+    p "#{@p1_name} wins!"
+    @playing = false
   end  
 end
 
 
-while x > 0
+while @playing
+  set_player_names if @p1_name.empty?
   generate_question
   ask_question 
   correct_response = evalutate_response(gather_response)
@@ -69,11 +108,6 @@ while x > 0
   end
 
   check_for_winner
+  update_turn
 
-
-update_turn
-
-
-
-  x = 0
 end

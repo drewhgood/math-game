@@ -39,6 +39,7 @@ def update_turn
   @whos_turn == 1 ? @whos_turn = 2 : @whos_turn = 1
 end
 
+
 def update_lives
   if @whos_turn == 1
     @p1_lives -= 1
@@ -48,21 +49,29 @@ def update_lives
 end
 
 
+def check_for_winner
+  if @p1_lives == 0 
+    p'Player 2 Wins!'
+  elsif @p2_lives == 0
+    p'Player 1 Wins!'
+  end  
+end
 
 
 while x > 0
   generate_question
-
   ask_question 
-
   correct_response = evalutate_response(gather_response)
-
   notify_right_or_wrong(correct_response)
 
-  update_lives
+  if !correct_response
+    update_lives
+  end
 
-  update_turn
+  check_for_winner
 
+
+update_turn
 
 
 

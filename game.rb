@@ -1,15 +1,15 @@
 require 'colorize'
-#game state values
+
+#game state values####
 @whos_turn = 1
 @playing = true
-
-#p1 refers to player 1, and p2 refers to player 2.
 @p1_lives = 3
 @p2_lives = 3
 @p1_name ='' 
 @p2_name =''
 @p1_lifetime_score = 0
 @p2_lifetime_score = 0
+######################
 
 
 def set_player_names
@@ -45,7 +45,7 @@ def generate_question
 end
 
 
-def turn_name
+def turn_name #Player's name who's turn it is.
   @whos_turn == 1 ? @p1_name : @p2_name
 end
 
@@ -80,41 +80,44 @@ end
 
 
 def update_lives
-  if @whos_turn == 1
-    @p1_lives -= 1
-  else
-    @p2_lives -= 1
-  end  
+  @whos_turn == 1 ? @p1_lives -= 1 :  @p2_lives -= 1
 end
 
 
 def update_lifetime_score(player)
-  if player == 1
-    @p1_lifetime_score += 1
-  elsif player == 2
-    @p2_lifetime_score += 1
-  end
+  player == 1 ? @p1_lifetime_score += 1 : @p2_lifetime_score += 1
 end
 
 
 def check_for_winner
   if @p1_lives == 0 
-    update_lifetime_score(2)
-    puts "#{@p2_name} wins!".blue.on_red.blink
-    quit_or_restart
+    2
   elsif @p2_lives == 0
-    update_lifetime_score(1)
-    puts "#{@p1_name} wins!".blue.on_red.blink
-    quit_or_restart
+    1
+  else
+    nil
   end  
 end
 
 
-def quit_or_restart
-  cumulative_scoreboard
+def announce_winner(player)
+  if player == 1
+   puts "#{@p1_name} wins!"
+  else
+   puts "#{@p2_name} wins!"
+  end
+end
+
+
+def play_again
   puts "Play again? (Y/N)"
   response = gets.chomp.downcase
-  if response == 'y'
+  response == 'y' ? true : false
+end
+
+
+def quit_or_restart(play_again)
+  if play_again
     reset_game_state
     @playing = true
   else
@@ -122,14 +125,15 @@ def quit_or_restart
   end
 end
 
-def cumulative_scoreboard
+
+def lifetime_scoreboard
   puts "#{@p1_name} : #{@p1_lifetime_score} total wins."
   puts "#{@p2_name} : #{@p2_lifetime_score} total wins"
 end
 
+
 def scoreboard
-  puts "#{@p1_name} : #{@p1_lives}pts."
-  puts "#{@p2_name} : #{@p2_lives}pts"
+  puts "#{@p1_name} : #{@p1_lives}pts  |  #{@p2_name} : #{@p2_lives}pts"
 end
 
 
@@ -153,5 +157,13 @@ while @playing
 
   update_turn
   scoreboard
-  check_for_winner
+  
+  if check_for_winner #checks if there is a winner.
+    winner = check_for_winner
+    announce_winner(winner)
+    update_lifetime_score(winner)
+    lifetime_scoreboard
+    quit_or_restart(play_again)
+  end
+     
 end

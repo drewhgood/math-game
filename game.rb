@@ -5,8 +5,6 @@ require 'pry'
 #game state values####
 @whos_turn = 1
 @playing = true
-@p1_lives = 3
-@p2_lives = 3
 @p1_lifetime_score = 0
 @p2_lifetime_score = 0
 ######################
@@ -15,8 +13,11 @@ require 'pry'
 def create_players
   ask_for_name
   @p1 = Player.new(collect_name)
+  update_turn
+
   ask_for_name
   @p2 = Player.new(collect_name)
+  update_turn
 end
 
 
@@ -74,7 +75,7 @@ end
 
 
 def update_lives
-  @whos_turn == 1 ? @p1_lives -= 1 :  @p2_lives -= 1
+  @whos_turn == 1 ? @p1.lives -= 1 :  @p2.lives -= 1
 end
 
 
@@ -84,9 +85,9 @@ end
 
 
 def check_for_winner
-  if @p1_lives == 0 
+  if @p1.lives == 0 
     2
-  elsif @p2_lives == 0
+  elsif @p2.lives == 0
     1
   else
     nil
@@ -96,9 +97,9 @@ end
 
 def announce_winner(player)
   if player == 1
-   puts "#{@p1_name} wins!"
+   puts "#{@p1.name} wins!"
   else
-   puts "#{@p2_name} wins!"
+   puts "#{@p2.name} wins!"
   end
 end
 
@@ -121,25 +122,25 @@ end
 
 
 def lifetime_scoreboard
-  puts "#{@p1_name} : #{@p1_lifetime_score} total wins."
-  puts "#{@p2_name} : #{@p2_lifetime_score} total wins"
+  puts "#{@p1.name} : #{@p1_lifetime_score} total wins."
+  puts "#{@p2.name} : #{@p2_lifetime_score} total wins"
 end
 
 
 def show_scoreboard
-  puts "#{@p1_name} : #{@p1_lives}pts  |  #{@p2_name} : #{@p2_lives}pts"
+  puts "#{@p1.name} : #{@p1.lives}pts  |  #{@p2.name} : #{@p2.lives}pts"
 end
 
 
 def reset_game_state
-  @p1_lives = 3
-  @p2_lives = 3
+  @p1.lives = 3
+  @p2.lives = 3
   @whos_turn = 1
 end
 
 
 while @playing
-  create_players
+  create_players if !@p1
   generate_question
   ask_question 
   correct_response = evalutate_response(gather_response)

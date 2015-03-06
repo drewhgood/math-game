@@ -8,4 +8,13 @@ class Player
     @wins = 0
   end
 
+  def add_win
+    @wins += 1
+  end
+
+  def lose_life
+    @lives -= 1
+  end
+
 end
+

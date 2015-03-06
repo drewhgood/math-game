@@ -1,13 +1,9 @@
 require 'colorize'
 require_relative 'player'
-require 'pry'
 
 #game state values####
 @whos_turn = 1
 @playing = true
-@p1_lifetime_score = 0
-@p2_lifetime_score = 0
-######################
 
 
 def create_players
@@ -26,11 +22,9 @@ def ask_for_name
 end
 
 
-
 def collect_name
   gets.chomp
 end
-
 
 
 def generate_question
@@ -46,7 +40,7 @@ end
 
 
 def ask_question
-  puts "#{turn_name}, what is  #{@number_1} + #{@number_2}?"
+  puts "\n#{turn_name}, what is  #{@number_1} + #{@number_2}?"
 end
 
 
@@ -62,9 +56,9 @@ end
 
 def notify_right_or_wrong(correct_response)
   if correct_response
-    puts "#{turn_name}, that is a correct response!".colorize(:green)
+    puts "\n#{turn_name}, that is a correct response!".colorize(:green)
   else
-    puts "#{turn_name}, that's wrong! Better luck next time.".colorize(:red)
+    puts "\n#{turn_name}, that's wrong! Better luck next time.".colorize(:red)
   end
 end
 
@@ -75,12 +69,12 @@ end
 
 
 def update_lives
-  @whos_turn == 1 ? @p1.lives -= 1 :  @p2.lives -= 1
+  @whos_turn == 1 ? @p1.lose_life :  @p2.lose_life
 end
 
 
-def update_lifetime_score(player)
-  player == 1 ? @p1_lifetime_score += 1 : @p2_lifetime_score += 1
+def update_wins(player)
+  player == 1 ? @p1.add_win : @p2.add_win
 end
 
 
@@ -97,9 +91,9 @@ end
 
 def announce_winner(player)
   if player == 1
-   puts "#{@p1.name} wins!"
+   puts "\n#{@p1.name} wins!\n".colorize(:green)
   else
-   puts "#{@p2.name} wins!"
+   puts "\n#{@p2.name} wins!\n".colorize(:green)
   end
 end
 
@@ -121,9 +115,9 @@ def quit_or_restart(play_again)
 end
 
 
-def lifetime_scoreboard
-  puts "#{@p1.name} : #{@p1_lifetime_score} total wins."
-  puts "#{@p2.name} : #{@p2_lifetime_score} total wins"
+def wins_scoreboard
+  puts "#{@p1.name} : #{@p1.wins} total wins."
+  puts "#{@p2.name} : #{@p2.wins} total wins."
 end
 
 
@@ -139,26 +133,28 @@ def reset_game_state
 end
 
 
-while @playing
-  create_players if !@p1
-  generate_question
-  ask_question 
-  correct_response = evalutate_response(gather_response)
-  notify_right_or_wrong(correct_response)
-
-  update_lives if !correct_response
-
-  update_turn
-  show_scoreboard
-  
-  if check_for_winner #checks if there is a winner.
-    winner = check_for_winner
-    announce_winner(winner)
-    update_lifetime_score(winner)
-    lifetime_scoreboard
-    quit_or_restart(play_again)
+def play
+  while @playing
+    create_players if !@p1
+    generate_question
+    ask_question 
+    correct_response = evalutate_response(gather_response)
+    notify_right_or_wrong(correct_response)
+    update_lives if !correct_response
+    update_turn
+    show_scoreboard
+    
+    if check_for_winner #checks if there is a winner.
+      winner = check_for_winner
+      announce_winner(winner)
+      update_wins(winner)
+      wins_scoreboard
+      quit_or_restart(play_again)
+    end
+       
   end
-     
+  puts "Thank you for playing!"
 end
 
-puts "Thank you for playing!"
+play
+

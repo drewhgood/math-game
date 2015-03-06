@@ -1,5 +1,6 @@
 require 'colorize'
 require_relative 'player'
+require 'pry'
 
 #game state values####
 @whos_turn = 1
@@ -13,14 +14,11 @@ require_relative 'player'
 ######################
 
 
-def set_player_names
+def create_players
   ask_for_name
-  @p1_name = collect_name
-  update_turn
-
+  @p1 = Player.new(collect_name)
   ask_for_name
-  @p2_name = collect_name
-  update_turn
+  @p2 = Player.new(collect_name)
 end
 
 
@@ -143,8 +141,7 @@ end
 
 
 while @playing
-  set_player_names if @p1_name.empty?
-
+  create_players
   generate_question
   ask_question 
   correct_response = evalutate_response(gather_response)

@@ -127,8 +127,8 @@ end
 
 
 def reset_game_state
-  @p1.lives = 3
-  @p2.lives = 3
+  @p1.reset_lives
+  @p2.reset_lives
   @whos_turn = 1
 end
 

@@ -1,4 +1,5 @@
 require 'colorize'
+require_relative 'player'
 
 #game state values####
 @whos_turn = 1

@@ -7,8 +7,6 @@ require 'pry'
 @playing = true
 @p1_lives = 3
 @p2_lives = 3
-@p1_name ='' 
-@p2_name =''
 @p1_lifetime_score = 0
 @p2_lifetime_score = 0
 ######################
@@ -42,7 +40,7 @@ end
 
 
 def turn_name #Player's name who's turn it is.
-  @whos_turn == 1 ? @p1_name : @p2_name
+  @whos_turn == 1 ? @p1.name : @p2.name
 end
 
 

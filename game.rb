@@ -15,13 +15,10 @@ require 'colorize'
 def set_player_names
   ask_for_name
   @p1_name = collect_name
-  
-  #update turn to ask the right player for their name
   update_turn
 
   ask_for_name
   @p2_name = collect_name
-
   update_turn
 end
 
@@ -132,7 +129,7 @@ def lifetime_scoreboard
 end
 
 
-def scoreboard
+def show_scoreboard
   puts "#{@p1_name} : #{@p1_lives}pts  |  #{@p2_name} : #{@p2_lives}pts"
 end
 
@@ -146,17 +143,16 @@ end
 
 while @playing
   set_player_names if @p1_name.empty?
+
   generate_question
   ask_question 
   correct_response = evalutate_response(gather_response)
   notify_right_or_wrong(correct_response)
 
-  if !correct_response
-    update_lives
-  end
+  update_lives if !correct_response
 
   update_turn
-  scoreboard
+  show_scoreboard
   
   if check_for_winner #checks if there is a winner.
     winner = check_for_winner
@@ -167,3 +163,5 @@ while @playing
   end
      
 end
+
+puts "Thank you for playing!"
